@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IISc GATE 700+ Goal Tracker - Ankith</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        .header h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 4em;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 3px;
+        }
+        
+        .header .target {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 10px 0;
+        }
+        
+        .header .name {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+        
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .affirmation-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .ritual-item {
+            background: #f8f9fa;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+        }
+        
+        .ritual-item input[type="checkbox"] {
+            width: 25px;
+            height: 25px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+        
+        .schedule-block {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .schedule-block .time {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        
+        .goal-input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .goal-input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 10px rgba(118, 75, 162, 0.3);
+        }
+        
+        .countdown {
+            text-align: center;
+            font-size: 3em;
+            font-weight: 900;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 20px 0;
+        }
+        
+        .progress-tracker {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .day-box {
+            aspect-ratio: 1;
+            background: #e9ecef;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .day-box:hover {
+            transform: scale(1.1);
+        }
+        
+        .day-box.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .motivation-quote {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .save-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.4);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .save-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 IISC BANGALORE</h1>
+            <div class="target">TARGET: 700+ GATE SCORE</div>
+            <div class="name">ANKITH'S VICTORY TRACKER</div>
+            <div class="countdown" id="countdown">Loading...</div>
+        </div>
+        
+        <div class="motivation-quote">
+            "Success is the sum of small efforts repeated day in and day out." - Robert Collier
+        </div>
+        
+        <div class="cards-grid">
+            <!-- Morning Ritual Card -->
+            <div class="card">
+                <h2>🌅 MORNING RITUAL (Before 9 AM)</h2>
+                <div class="ritual-item">
+                    <input type="checkbox" id="affirmation1">
+                    <label for="affirmation1">Say goal 10x OUT LOUD with emotion</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="visualization">
+                    <label for="visualization">5-min visualization of IISc campus</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="write-goal">
+                    <label for="write-goal">Write goal 10 times in notebook</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="review-today">
+                    <label for="review-today">Review today's 3 priorities</label>
+                </div>
+                <div class="affirmation-box">
+                    "I am studying at IISc Bangalore with a GATE score of 700+"
+                </div>
+            </div>
+            
+            <!-- Daily Study Schedule Card -->
+            <div class="card">
+                <h2>📚 DAILY STUDY SCHEDULE</h2>
+                <div class="schedule-block">
+                    <div class="time">9:00 AM - 2:00 PM</div>
+                    <div>New Topic + Previous Day Test Analysis</div>
+                </div>
+                <div class="schedule-block">
+                    <div class="time">3:30 PM - 8:00 PM</div>
+                    <div>Old Topic Revision + GATE PYQs + Tests</div>
+                </div>
+                <div class="schedule-block">
+                    <div class="time">9:30 PM - 11:30 PM</div>
+                    <div>1hr Revision + 1hr Mind Map Creation</div>
+                </div>
+            </div>
+            
+            <!-- Daily Goals Card -->
+            <div class="card">
+                <h2>🎯 TODAY'S GOALS</h2>
+                <input type="text" class="goal-input" id="goal1" placeholder="Priority Goal #1">
+                <input type="text" class="goal-input" id="goal2" placeholder="Priority Goal #2">
+                <input type="text" class="goal-input" id="goal3" placeholder="Priority Goal #3">
+                <h3 style="margin-top: 20px; color: #667eea;">Today's Wins:</h3>
+                <input type="text" class="goal-input" id="win1" placeholder="Win #1">
+                <input type="text" class="goal-input" id="win2" placeholder="Win #2">
+                <input type="text" class="goal-input" id="win3" placeholder="Win #3">
+            </div>
+            
+            <!-- Evening Power Hour Card -->
+            <div class="card">
+                <h2>⚡ EVENING POWER HOUR (8-8:30 PM)</h2>
+                <div class="ritual-item">
+                    <input type="checkbox" id="doc-wins">
+                    <label for="doc-wins">Document 3 wins of today</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="tomorrow-plan">
+                    <label for="tomorrow-plan">Write tomorrow's top 3 priorities</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="nagendar-call">
+                    <label for="nagendar-call">10-min accountability call with Nagendar</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="weak-subject">
+                    <label for="weak-subject">30 mins on weakest subject</label>
+                </div>
+            </div>
+            
+            <!-- Night Ritual Card -->
+            <div class="card">
+                <h2>🌙 NIGHT RITUAL (Before Sleep)</h2>
+                <div class="ritual-item">
+                    <input type="checkbox" id="night-affirmation">
+                    <label for="night-affirmation">Repeat goal 10x looking at IISc picture</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="subconscious">
+                    <label for="subconscious">Program subconscious mind</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="no-phone">
+                    <label for="no-phone">No phone 30 mins before sleep</label>
+                </div>
+                <div class="affirmation-box">
+                    "My subconscious is working RIGHT NOW to help me achieve 700+"
+                </div>
+            </div>
+            
+            <!-- 21-Day Challenge Card -->
+            <div class="card">
+                <h2>🔥 21-DAY DISCIPLINE CHALLENGE</h2>
+                <p style="margin-bottom: 15px; color: #666;">Mark each day you complete ALL rituals:</p>
+                <div class="progress-tracker" id="progress-tracker">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Weekly Goals Card -->
+            <div class="card">
+                <h2>📅 WEEKLY GOALS</h2>
+                <input type="text" class="goal-input" id="weekly1" placeholder="Weekly Goal #1">
+                <input type="text" class="goal-input" id="weekly2" placeholder="Weekly Goal #2">
+                <input type="text" class="goal-input" id="weekly3" placeholder="Weekly Goal #3">
+                <h3 style="margin-top: 20px; color: #667eea;">Topics to Master This Week:</h3>
+                <input type="text" class="goal-input" id="topic1" placeholder="Topic #1">
+                <input type="text" class="goal-input" id="topic2" placeholder="Topic #2">
+            </div>
+            
+            <!-- Accountability Card -->
+            <div class="card">
+                <h2>🤝 ACCOUNTABILITY</h2>
+                <div class="ritual-item">
+                    <input type="checkbox" id="nagendar-update">
+                    <label for="nagendar-update">Daily update to Nagendar</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="phone-flight">
+                    <label for="phone-flight">Phone on flight mode during study blocks</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="zero-social">
+                    <label for="zero-social">Zero social media during study time</label>
+                </div>
+                <div class="ritual-item">
+                    <input type="checkbox" id="hydration">
+                    <label for="hydration">Hydrated every 90 mins</label>
+                </div>
+            </div>
+        </div>
+        
+        <button class="save-btn" onclick="window.print()">🖨️ PRINT THIS TRACKER</button>
+    </div>
+    
+    <script>
+        // Countdown to GATE 2026 (assuming Feb 2026)
+        function updateCountdown() {
+            const gateDate = new Date('2026-02-01T00:00:00');
+            const now = new Date();
+            const diff = gateDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('countdown').textContent = `${days} DAYS TO GATE`;
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 86400000); // Update daily
+        
+        // Generate 21-day challenge boxes
+        const progressTracker = document.getElementById('progress-tracker');
+        for (let i = 1; i <= 21; i++) {
+            const dayBox = document.createElement('div');
+            dayBox.className = 'day-box';
+            dayBox.textContent = i;
+            dayBox.onclick = function() {
+                this.classList.toggle('completed');
+            };
+            progressTracker.appendChild(dayBox);
+        }
+        
+        // Save all data to localStorage (for daily persistence)
+        function saveData() {
+            const data = {};
+            document.querySelectorAll('input').forEach(input => {
+                if (input.type === 'checkbox') {
+                    data[input.id] = input.checked;
+                } else {
+                    data[input.id] = input.value;
+                }
+            });
+            localStorage.setItem('iisc-tracker-data', JSON.stringify(data));
+        }
+        
+        // Load saved data
+        function loadData() {
+            const saved = localStorage.getItem('iisc-tracker-data');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        if (input.type === 'checkbox') {
+                            input.checked = data[key];
+                        } else {
+                            input.value = data[key];
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Auto-save on any change
+        document.addEventListener('change', saveData);
+        document.addEventListener('input', saveData);
+        
+        // Load data on page load
+        window.addEventListener('load', loadData);
+    </script>
+</body>
+</html>
